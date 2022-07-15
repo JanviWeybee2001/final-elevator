@@ -7,7 +7,6 @@ let elevatorArray = [];
 for (let i = 0; i < ELEVATOR; i++) {
     elevatorArray.push({ id: i + 1, active: false, elevatorOn: 1 });
 }
-console.log(elevatorArray);
 
 const ELEVATOR_BODY_MAIN = document.querySelector('.elvator-body-main');
 const ELEVATOR_NUMBER = document.querySelector('.elevator-number');
@@ -56,7 +55,6 @@ ELEVATOR_NUMBER.insertAdjacentHTML('beforeend', html);
 const floor = id => {
     mainFloor = Number(id.slice(-1));
     let minDistance = elevatorArray.map(elevator => Math.abs(elevator.elevatorOn - mainFloor))
-    console.log(minDistance);
     let num = minDistance.indexOf(Math.min(...minDistance));
     let index = elevatorArray.map(elevator => elevator.id).indexOf(elevatorArray[num].id);
     let workingElevator = document.querySelector(`#elevator-${elevatorArray[index].id}`);
@@ -92,9 +90,9 @@ const floor = id => {
 
 const checkElevator = elevatorId => {
     let elevator = document.getElementById(elevatorId);
-    console.log(elevator);
+    
     let index = elevatorArray.map(elevator => elevator.id).indexOf(elevatorId);
-    console.log(index);
+    
 
     if (elevator.checked) {
         elevatorArray[index].active = elevator.checked;
@@ -123,5 +121,4 @@ const checkElevator = elevatorId => {
         let workingElevator = document.getElementById(`elevator-${elevatorArray[index].id}`);
         workingElevator.style.border = "none";
     }
-    console.log(elevatorArray);
 }
