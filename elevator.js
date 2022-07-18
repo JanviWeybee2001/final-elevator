@@ -83,15 +83,18 @@ const floor = id => {
                 clearInterval(flow);
             } else {
                 position--;
+                workingElevator.style.backgroundColor = 'gray';
                 workingElevator.style.top = position + "px";
                 workingElevator.innerHTML = `${FLOOR - Math.round(position / 100)}`;
             }
         }
         else {
             if (position == floorON * HEIGHT) {
+                workingElevator.style.backgroundColor = 'silver';
                 clearInterval(flow);
             } else {
                 position++;
+                workingElevator.style.backgroundColor = 'gray';
                 workingElevator.style.top = position + "px";
                 workingElevator.innerHTML = `${FLOOR - Math.round(position / 100)}`;
             }
@@ -116,8 +119,10 @@ const checkElevator = elevatorId => {
         clearInterval(slide);
         slide = setInterval(maintananceMode, 5);
         function maintananceMode() {
-            if (position == (FLOOR - 1) * 100)
+            workingElevator.style.backgroundColor = 'rgb(60,60,60)';
+            if (position == (FLOOR - 1) * 100){
                 clearInterval(slide);
+            }
             else {
                 position++;
                 workingElevator.style.top = position + "px";
@@ -135,5 +140,6 @@ const checkElevator = elevatorId => {
         index = elevatorArray.map(elevator => elevator.id).indexOf(elevatorId);
         let workingElevator = document.getElementById(`elevator-${elevatorArray[index].id}`);
         workingElevator.style.border = "none";
+        workingElevator.style.backgroundColor = 'gray';
     }
 }
