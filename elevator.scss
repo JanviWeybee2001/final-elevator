@@ -16,11 +16,11 @@ body {
     }
 
     .main-background {
+        width: 90%;
         box-sizing: border-box;
         border-radius: 1%;
-        background-color: #006266;
+        background: url('backgroung.webp') repeat;
         align-items: center;
-        width: 90%;
         display: flex;
 
         .elvator-body-main {
@@ -31,21 +31,24 @@ body {
 
             .elevator-body {
                 z-index: 3;
-                background-color: #B1E2FF;
+                border: 5px solid black;
+                background-color: white;
                 display: flex;
                 flex-wrap: wrap;
                 margin: auto;
 
                 .elevator-body-part {
                     position: relative;
+                    box-sizing: border-box;
 
                     .elevator {
                         background-color: gray;
                         position: absolute;
-                        margin-left: 17%;
                         color: black;
                         text-align: center;
                         font-weight: bolder;
+                        box-sizing: border-box;
+                        margin-left: 1.5%;
                     }
                 }
 
@@ -67,7 +70,9 @@ body {
                 display: flex;
                 padding-top: 20px;
 
-                .number, .up, .down {
+                .number,
+                .up,
+                .down {
                     box-sizing: border-box;
                     height: 35px;
                     width: 35px;
@@ -82,7 +87,7 @@ body {
             }
         }
     }
-    
+
 }
 
 .switch {
@@ -108,10 +113,10 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: rgb(8, 7, 7);
     -webkit-transition: .4s;
     transition: .4s;
-    border: 2px solid gray;
+    border: 2px solid white;
 }
 
 .slider:before {
@@ -119,7 +124,7 @@ body {
     content: "";
     height: 12px;
     width: 12px;
-    left: -1px;
+    left: 3px;
     bottom: 3.5px;
     background-color: gray;
     -webkit-transition: .4s;
@@ -127,12 +132,12 @@ body {
 }
 
 input:checked+.slider {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
+    background-color: white;
+    border-color: white;
 }
 
 input:focus+.slider {
-    box-shadow: 0 0 1px #0d6efd;
+    box-shadow: 0 0 1px #ffffff;
 }
 
 input:checked+.slider:before {

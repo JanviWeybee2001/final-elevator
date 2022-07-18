@@ -1,7 +1,7 @@
 const ELEVATOR = 3;
-const FLOOR = 5;
+const FLOOR = 7;
 const HEIGHT = 100;
-const WIDTH = 120;
+const WIDTH = 150;
 let elevatorArray = [];
 
 for (let i = 0; i < ELEVATOR; i++) {
@@ -13,10 +13,12 @@ const ELEVATOR_NUMBER = document.querySelector('.elevator-number');
 ELEVATOR_BODY_MAIN.style.height = `${HEIGHT * FLOOR + 100}px`;
 ELEVATOR_NUMBER.style.height = `${HEIGHT * FLOOR}px`;
 
+// ADD ELEVATOR
 for (let i = 1; i <= ELEVATOR; i++) {
     let html = `<div class="elevator-body" style="height: ${HEIGHT * FLOOR}px; width: ${WIDTH + (FLOOR * 12)}px">
     <div class="elevator-body-part" style="height: ${HEIGHT * FLOOR}px; width: ${WIDTH + (FLOOR * 10)}px">
-        <div class="elevator" id="elevator-${i}" style="height: ${HEIGHT}px; width: ${WIDTH}px; top: ${(FLOOR - 1) * HEIGHT}px; box-sizing: border-box"> 1
+        <div class="elevator" id="elevator-${i}" style="height: ${HEIGHT}px; width: ${WIDTH + (FLOOR * 10) + FLOOR}px; top: ${(FLOOR - 1) * HEIGHT}px"> 1
+        <div class="door" style="height: ${HEIGHT}px; width: ${WIDTH + (FLOOR * 10) + FLOOR}px"></div>
         </div>
     </div>
     <label class="switch">
@@ -27,7 +29,11 @@ for (let i = 1; i <= ELEVATOR; i++) {
     ELEVATOR_BODY_MAIN.insertAdjacentHTML('beforeend', html);
 }
 
+const ELEVATOR_BODY = document.getElementsByClassName('elevator-body');
+const ELEVATOR_BODY_PART = document.getElementsByClassName('elevator-body-part');
+const ELEVATOR_MAIN = document.getElementsByClassName('elevator');
 
+// ADD LAST FLOOR BUTTON
 let html = `<div class="number-body" style="height: ${HEIGHT}px">
 <div class="number"> ${FLOOR} </div>
 <div class="up" style="height: 0; width: 0;"></div>
@@ -35,6 +41,7 @@ let html = `<div class="number-body" style="height: ${HEIGHT}px">
 </div>`;
 ELEVATOR_NUMBER.insertAdjacentHTML('beforeend', html);
 
+// ADD FLOOR
 for (let i = FLOOR - 1; i > 1; i--) {
     let html = `<div class="number-body" style="height: ${HEIGHT}px">
     <div class="number"> ${i} </div>
@@ -44,6 +51,7 @@ for (let i = FLOOR - 1; i > 1; i--) {
     ELEVATOR_NUMBER.insertAdjacentHTML('beforeend', html);
 }
 
+// ADD 1ST FLOOR
 html = `<div class="number-body" style="height: ${HEIGHT}px">
 <div class="number"> 1 </div>
 <button class="up" id="up-1" onclick=floor(id)><i class="fa-solid fa-caret-up"></i></button>
@@ -51,7 +59,7 @@ html = `<div class="number-body" style="height: ${HEIGHT}px">
 </div>`;
 ELEVATOR_NUMBER.insertAdjacentHTML('beforeend', html);
 
-
+// ELEVATOR MOVE ONCLICK FLOOR BUTTON
 const floor = id => {
     mainFloor = Number(id.slice(-1));
     let minDistance = elevatorArray.map(elevator => Math.abs(elevator.elevatorOn - mainFloor))
@@ -62,48 +70,53 @@ const floor = id => {
     let flow = null;
     let elevatorON = FLOOR - elevatorArray[index].elevatorOn;
     let floorON = FLOOR - mainFloor;
-    let pos = elevatorON * HEIGHT;
+    let position = elevatorON * HEIGHT;
     clearInterval(flow);
     flow = setInterval(elevatorSlide, 5);
+    
+    // SLIDING ELEVATOR
     function elevatorSlide() {
         if (elevatorON - floorON > 0) {
-            if (pos == floorON * HEIGHT) {
+            if (position == floorON * HEIGHT) {
+                let door = HEIGHT/2;
+                workingElevator.style.backgroundColor = 'silver';
                 clearInterval(flow);
             } else {
-                pos--;
-                workingElevator.style.top = pos + "px";
-                workingElevator.innerHTML = `${FLOOR - Math.round(pos / 100)}`;
+                position--;
+                workingElevator.style.top = position + "px";
+                workingElevator.innerHTML = `${FLOOR - Math.round(position / 100)}`;
             }
         }
         else {
-            if (pos == floorON * HEIGHT) {
+            if (position == floorON * HEIGHT) {
                 clearInterval(flow);
             } else {
-                pos++;
-                workingElevator.style.top = pos + "px";
-                workingElevator.innerHTML = `${FLOOR - Math.round(pos / 100)}`;
+                position++;
+                workingElevator.style.top = position + "px";
+                workingElevator.innerHTML = `${FLOOR - Math.round(position / 100)}`;
             }
         }
     }
     elevatorArray[index].elevatorOn = mainFloor;
 }
 
+// ELEVATOR ON MAINTANANCE MODE
 const checkElevator = elevatorId => {
     let elevator = document.getElementById(elevatorId);
-    
-    let index = elevatorArray.map(elevator => elevator.id).indexOf(elevatorId);
-    
 
+    let index = elevatorArray.map(elevator => elevator.id).indexOf(elevatorId);
+
+    // ELEVATOR IN MAINTANANCE MODE
     if (elevator.checked) {
         elevatorArray[index].active = elevator.checked;
         let workingElevator = document.getElementById(`elevator-${elevatorArray[index].id}`);
-        
+
         let slide = null;
         let position = (FLOOR - elevatorArray[index].elevatorOn) * HEIGHT;
         clearInterval(slide);
         slide = setInterval(maintananceMode, 5);
         function maintananceMode() {
-            if (position == (FLOOR-1)*100)
+            if (position == (FLOOR - 1) * 100)
                 clearInterval(slide);
             else {
                 position++;
@@ -115,6 +128,8 @@ const checkElevator = elevatorId => {
         workingElevator.style.border = "1px solid red";
         elevatorArray.splice(index, 1);
     }
+
+    // ELEVATOR REMOVE FROM MAINTANANCE MODE
     else {
         elevatorArray.push({ id: elevatorId, active: false, elevatorOn: 1 });
         index = elevatorArray.map(elevator => elevator.id).indexOf(elevatorId);
